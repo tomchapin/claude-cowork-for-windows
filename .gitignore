@@ -1,0 +1,22 @@
+# Environment files with secrets
+.env
+
+# Snapshot backups (large files)
+snapshots/*/disk.tar.gz
+
+# Docker volumes (managed by Docker)
+volumes/
+
+# Windows temp files
+*.tmp
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

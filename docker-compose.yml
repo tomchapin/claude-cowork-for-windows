@@ -1,0 +1,65 @@
+# Claude Cowork for Windows
+# Run Claude Cowork on Windows via macOS in Docker
+#
+# Usage:
+#   docker-compose up -d        # Start the VM
+#   docker-compose down         # Stop the VM (preserves state)
+#   docker-compose down -v      # Stop and DELETE all data (fresh start)
+#
+# Access:
+#   VNC:    localhost:5999 (use any VNC client, or the noVNC web interface)
+#   Web:    http://localhost:7900 (noVNC in browser) - if using noVNC image variant
+#   SSH:    localhost:50922
+
+services:
+  macos:
+    image: sickcodes/docker-osx:sonoma
+    container_name: claude-cowork-macos
+    environment:
+      # Display resolution
+      WIDTH: "${WIDTH:-1920}"
+      HEIGHT: "${HEIGHT:-1080}"
+
+      # Resource allocation
+      RAM: "${RAM_SIZE:-8}"
+      SMP: "${CPU_CORES:-4}"
+      CORES: "${CPU_CORES:-4}"
+
+      # Audio (disabled for server use)
+      AUDIO_DRIVER: "none"
+
+      # Generate unique serial numbers
+      GENERATE_UNIQUE: "true"
+
+      # Extra QEMU arguments for better performance
+      EXTRA: "-usb -device usb-kbd -device usb-mouse"
+    volumes:
+      # Persistent macOS disk image
+      - macos-storage:/image
+
+      # Shared folder (access via SSHFS or SMB inside macOS)
+      - ./shared:/mnt/shared
+    ports:
+      # VNC access - connect with any VNC client
+      - "${VNC_PORT:-5999}:5999"
+
+      # SSH access - for command line and file transfer
+      - "${SSH_PORT:-50922}:10022"
+
+      # Additional ports for development (uncomment as needed)
+      # - "8080:8080"   # Web dev server
+      # - "5000:5000"   # API server
+    devices:
+      # KVM acceleration (required)
+      - /dev/kvm
+    cap_add:
+      - NET_ADMIN
+    security_opt:
+      - seccomp=unconfined
+    # Give macOS time to shut down gracefully
+    stop_grace_period: 2m
+    restart: unless-stopped
+
+volumes:
+  macos-storage:
+    name: claude-cowork-macos-storage
