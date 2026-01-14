@@ -61,7 +61,12 @@ docker-compose logs -f
 
 ### 3. Connect via VNC
 
-Download [RealVNC Viewer](https://www.realvnc.com/en/connect/download/viewer/) (free) and connect to:
+Use any VNC client (all free and open source):
+- **[TigerVNC](https://tigervnc.org/)** - Recommended, clean and fast
+- **[TightVNC](https://www.tightvnc.com/)** - Classic and reliable
+- **[UltraVNC](https://uvnc.com/)** - Feature-rich
+
+Connect to:
 ```
 localhost:5999
 ```
