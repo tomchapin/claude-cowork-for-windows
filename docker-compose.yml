@@ -13,7 +13,7 @@
 
 services:
   macos:
-    image: sickcodes/docker-osx:sonoma
+    image: sickcodes/docker-osx:latest
     container_name: claude-cowork-macos
     environment:
       # Display resolution
