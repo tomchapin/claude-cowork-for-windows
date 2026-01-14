@@ -1,6 +1,6 @@
 # Claude Cowork for Windows
 
-Run **Claude Cowork** on Windows by running macOS in a Docker container.
+**Claude Cowork is macOS-only.** This project lets you run it on Windows by running macOS in a Docker container.
 
 > 📖 **Official Announcement:** [Cowork Research Preview](https://claude.com/blog/cowork-research-preview) - Anthropic's blog post introducing Claude Cowork
 
