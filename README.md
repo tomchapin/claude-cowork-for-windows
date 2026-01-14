@@ -94,7 +94,7 @@ When the macOS Utilities window appears, select **Disk Utility** and click **Con
 
 #### Step 5b: Select the virtual disk
 
-In Disk Utility, find the **~275 GB QEMU HARDDISK Media** in the sidebar (not the small ~3GB recovery partition). Select it:
+In Disk Utility, find the **larger QEMU HARDDISK Media** in the sidebar (the ~200+ GB one, not the small ~3GB recovery partition). Select it:
 
 ![Select Disk](docs/screenshots/02-disk-utility-select-disk.png)
 
