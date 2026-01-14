@@ -241,9 +241,22 @@ After installation, follow the macOS setup wizard:
 - Create a user account
 - Complete remaining setup steps
 
-### 8. Install Claude Code CLI
+### 8. Install Claude Cowork (Desktop App)
 
-Once macOS is set up, open **Terminal** (Cmd+Space, type "Terminal") and run:
+1. Open **Safari** in macOS
+2. Go to https://claude.ai/download
+3. Download and install the macOS app
+4. Sign in with your Anthropic account
+
+**Done! You now have Claude Cowork running on macOS in a virtualized sandbox on your Windows PC.**
+
+---
+
+### 9. (Optional) Install Claude Code CLI
+
+> Skip this if you only want Cowork. Claude Code CLI is a separate terminal-based tool for developers.
+
+Open **Terminal** (Cmd+Space, type "Terminal") and run:
 
 ```bash
 # Install Homebrew
@@ -262,15 +275,6 @@ npm install -g @anthropic-ai/claude-code
 # Verify installation
 claude --version
 ```
-
-### 9. Install Claude Cowork (Desktop App)
-
-1. Open **Safari** in macOS
-2. Go to https://claude.ai/download
-3. Download and install the macOS app
-4. Sign in with your Anthropic account
-
-**Done! You now have Claude Cowork running on macOS in a virtualized sandbox on your Windows PC.**
 
 ## Usage
 
