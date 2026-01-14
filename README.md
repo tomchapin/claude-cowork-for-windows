@@ -4,6 +4,38 @@ Run **Claude Cowork** on Windows by running macOS in a Docker container.
 
 > 📖 **Official Announcement:** [Cowork Research Preview](https://claude.com/blog/cowork-research-preview) - Anthropic's blog post introducing Claude Cowork
 
+---
+
+## TL;DR - Let Claude Do It
+
+Don't want to read all these instructions? **Let Claude Code set everything up for you.**
+
+### 1. Install Claude Code CLI on Windows
+
+```powershell
+# Install Node.js first (if you don't have it)
+winget install OpenJS.NodeJS
+
+# Install Claude Code
+npm install -g @anthropic-ai/claude-code
+```
+
+### 2. Tell Claude to do the rest
+
+```powershell
+claude
+```
+
+Then just say:
+
+> "Clone https://github.com/tomchapin/claude-cowork-for-windows, read the README, and help me set up the macOS VM so I can run Claude Cowork."
+
+Claude will read the instructions, check your system, enable KVM, start the container, and guide you through the macOS installation via VNC.
+
+**That's the cheat code.** 🎮
+
+---
+
 ## Why Use This?
 
 [Claude Cowork](https://claude.ai/download) is Anthropic's revolutionary AI agent that can actually *use* your computer - reading files, editing documents, browsing the web, and automating complex workflows. It's like having an AI assistant that can do real work on your machine.
