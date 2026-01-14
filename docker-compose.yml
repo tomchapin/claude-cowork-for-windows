@@ -7,63 +7,27 @@
 #   docker-compose down -v      # Stop and DELETE all data (fresh start)
 #
 # Access:
-#   VNC:    localhost:5999 (use any VNC client, or the noVNC web interface)
-#   Web:    http://localhost:7900 (noVNC in browser) - if using noVNC image variant
-#   SSH:    localhost:50922
+#   Web UI: http://localhost:8006 (browser-based desktop viewer)
 
 services:
   macos:
-    image: sickcodes/docker-osx:latest
+    image: dockurr/macos
     container_name: claude-cowork-macos
     environment:
-      # Display resolution
-      WIDTH: "${WIDTH:-1920}"
-      HEIGHT: "${HEIGHT:-1080}"
-
-      # Resource allocation
-      RAM: "${RAM_SIZE:-8}"
-      SMP: "${CPU_CORES:-4}"
-      CORES: "${CPU_CORES:-4}"
-
-      # Audio (disabled for server use)
-      AUDIO_DRIVER: "none"
-
-      # Generate unique serial numbers
-      GENERATE_UNIQUE: "true"
-
-      # Virtual disk size (GB) - macOS needs ~25GB minimum
-      SIZE_IN_GB: "${DISK_SIZE:-64}"
-
-      # Extra QEMU arguments: VNC display + USB input devices
-      # VNC port 99 = 5900 + 99 = 5999
-      EXTRA: "-display none -vnc 0.0.0.0:99 -usb -device usb-kbd -device usb-mouse"
-    volumes:
-      # Persistent macOS disk image and OpenCore config
-      - macos-storage:/home/arch/OSX-KVM
-
-      # Shared folder (access via SSHFS or SMB inside macOS)
-      - ./shared:/mnt/shared
-    ports:
-      # VNC access - connect with any VNC client
-      - "${VNC_PORT:-5999}:5999"
-
-      # SSH access - for command line and file transfer
-      - "${SSH_PORT:-50922}:10022"
-
-      # Additional ports for development (uncomment as needed)
-      # - "8080:8080"   # Web dev server
-      # - "5000:5000"   # API server
+      # Try Big Sur (oldest supported) with single core for AMD compatibility
+      VERSION: "11"
+      RAM_SIZE: "8G"
+      CPU_CORES: "1"
+      DISK_SIZE: "64G"
     devices:
-      # KVM acceleration (required)
       - /dev/kvm
     cap_add:
       - NET_ADMIN
-    security_opt:
-      - seccomp=unconfined
-    # Give macOS time to shut down gracefully
+    ports:
+      - "8006:8006"
+      - "5900:5900"
+    volumes:
+      - ./storage:/storage
+      - ./shared:/shared
     stop_grace_period: 2m
     restart: unless-stopped
-
-volumes:
-  macos-storage:
-    name: claude-cowork-macos-storage

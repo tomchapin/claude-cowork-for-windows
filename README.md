@@ -34,7 +34,7 @@ Then just say:
 
 > "Clone https://github.com/tomchapin/claude-cowork-for-windows, read the README, and help me set up the macOS VM so I can run Claude Cowork."
 
-Claude will read the instructions, check your system, enable KVM, start the container, and guide you through the macOS installation via VNC.
+Claude will read the instructions, check your system, enable KVM, start the container, and guide you through the macOS installation.
 
 **That's the cheat code.** 🎮
 
@@ -48,7 +48,7 @@ Claude will read the instructions, check your system, enable KVM, start the cont
 │  ┌────────────────────────────────────┐  │
 │  │  Docker Desktop (WSL2)             │  │
 │  │  ┌──────────────────────────────┐  │  │
-│  │  │  macOS VM                    │  │  │
+│  │  │  macOS VM (Big Sur)         │  │  │
 │  │  │  ┌────────────────────────┐  │  │  │
 │  │  │  │    Claude Cowork       │  │  │  │
 │  │  │  │    Claude Code         │  │  │  │
@@ -58,11 +58,11 @@ Claude will read the instructions, check your system, enable KVM, start the cont
 │  │  └──────────────────────────────┘  │  │
 │  └────────────────────────────────────┘  │
 │                    ▲                     │
-│         VNC Viewer (port 5999)           │
+│       Web Browser (localhost:8006)       │
 └──────────────────────────────────────────┘
 ```
 
-You connect to the macOS desktop via VNC and use it like a normal Mac.
+You connect to the macOS desktop via your web browser - no VNC client needed.
 
 ## Requirements
 
@@ -71,7 +71,7 @@ You connect to the macOS desktop via VNC and use it like a normal Mac.
 
 **Recommended specs:**
 - 8GB+ RAM available for the VM (4GB minimum, but will be slow)
-- 64GB+ free disk space (can work with less)
+- 64GB+ free disk space
 
 Check virtualization:
 ```powershell
@@ -148,65 +148,54 @@ docker-compose up -d
 
 ### 4. Wait for macOS to download and boot
 
-First boot takes ~15-20 minutes (downloads macOS, then installs). Watch progress:
+First boot takes ~10-15 minutes (downloads macOS Big Sur). Watch progress:
 ```powershell
 docker-compose logs -f
 ```
 
-### 5. Connect via VNC
+### 5. Connect via Web Browser
 
-Use any VNC client (all free and open source):
-- **[TigerVNC](https://tigervnc.org/)** - Recommended, clean and fast
-- **[TightVNC](https://www.tightvnc.com/)** - Classic and reliable
-- **[UltraVNC](https://uvnc.com/)** - Feature-rich
+Open your browser and go to:
+```
+http://localhost:8006
+```
 
-Connect to:
-```
-localhost:5999
-```
+No VNC client needed - the desktop viewer runs right in your browser.
 
 ### 6. Install macOS (first time only)
 
-On first boot, you'll see the macOS Recovery environment (you may see some `vm_shared_region` warnings - these are normal in a VM).
+On first boot, you'll see the macOS installer. Follow these steps:
 
 #### Step 6a: Open Disk Utility
 
-When the macOS Utilities window appears, select **Disk Utility** and click **Continue**:
+In Disk Utility, select the **Apple Inc. VirtIO Block Media** disk (~68 GB):
 
-![macOS Utilities](docs/screenshots/01-macos-utilities.png)
+![Disk Utility](docs/screenshots/01-disk-utility.png)
 
-#### Step 6b: Select the virtual disk
-
-In Disk Utility, find the **larger QEMU HARDDISK Media** in the sidebar (the ~200+ GB one, not the small ~3GB recovery partition). Select it:
-
-![Select Disk](docs/screenshots/02-disk-utility-select-disk.png)
-
-#### Step 6c: Erase and format the disk
+#### Step 6b: Erase and format the disk
 
 Click **Erase** and configure:
-- **Name:** `OSX` (or any name you prefer)
+- **Name:** `OSX`
 - **Format:** `APFS`
 - **Scheme:** `GUID Partition Map`
 
 Then click **Erase**:
 
-![Erase Dialog](docs/screenshots/03-erase-dialog.png)
+![Erase Dialog](docs/screenshots/02-erase-dialog.png)
 
-#### Step 6d: Reinstall macOS
+#### Step 6c: Start the installer
 
-Quit Disk Utility, then select **Reinstall macOS Sequoia** and click **Continue**:
+Quit Disk Utility. The macOS Big Sur installer will appear. Click **Continue**:
 
-![Select Reinstall](docs/screenshots/04-select-reinstall.png)
+![Installer Welcome](docs/screenshots/03-installer-welcome.png)
 
-#### Step 6e: Select installation disk
+#### Step 6d: Select installation disk
 
-After agreeing to the license, select your newly formatted **OSX** disk (not the macOS Base System):
+Select your newly formatted **OSX** disk and click **Continue**:
 
-![Select Install Disk](docs/screenshots/05-select-install-disk.png)
+![Select Disk](docs/screenshots/04-select-disk.png)
 
-Click **Continue** and wait for installation to complete (~20-30 minutes).
-
-The VM will reboot several times during installation. Your VNC connection may disconnect briefly - just reconnect to `localhost:5999`.
+Wait for installation to complete (~20-30 minutes). The VM will reboot several times.
 
 ### 7. Complete macOS setup
 
@@ -315,21 +304,10 @@ Snapshots are stored in the `snapshots/` folder and can be quite large (10-50GB+
 
 ## Access
 
-| Method | Address | Password |
-|--------|---------|----------|
-| VNC | localhost:5999 | (none) |
-| SSH | localhost:50922 | alpine |
-
-## Optional: Full Dev Environment
-
-For a complete development setup (VS Code, Git, Rust, Python, etc.), run the included setup script inside macOS Terminal:
-
-```bash
-# Copy from shared folder and run
-cp /Volumes/shared/setup-dev-environment.sh ~/
-chmod +x ~/setup-dev-environment.sh
-~/setup-dev-environment.sh
-```
+| Method | Address |
+|--------|---------|
+| Web Viewer | http://localhost:8006 |
+| VNC | localhost:5900 |
 
 ## Troubleshooting
 
@@ -381,17 +359,25 @@ If you see `error gathering device information while adding custom device "/dev/
 
 ### Slow boot
 
-First boot is slow (~15-20 min) because it downloads macOS recovery files. The initial macOS installation takes another 20-30 minutes. After that, subsequent boots take 1-2 minutes.
+First boot is slow (~10-15 min) because it downloads macOS. The initial macOS installation takes another 20-30 minutes. After that, subsequent boots take 1-2 minutes.
 
-### Can't connect VNC
+### macOS not booting (AMD users)
 
-Wait for macOS to fully boot. Check `docker-compose logs -f` to see boot progress.
+If macOS hangs during boot on AMD systems, ensure you're using **single core** mode. The default docker-compose.yml already sets `CPU_CORES: "1"` for maximum compatibility. You can increase cores after installation is complete.
 
-During macOS installation, the VM reboots several times. If VNC disconnects, wait a few seconds and reconnect to `localhost:5999`.
+### Can't connect to web viewer
 
-### Shared folder not visible
+Wait for macOS to fully boot. Check `docker-compose logs -f` to see boot progress. The web viewer is available at http://localhost:8006 once QEMU starts.
 
-The `./shared` folder mounts inside the container at `/mnt/shared`. To access it from macOS, you may need to use SSH/SFTP or configure file sharing.
+## Technical Details
+
+This project uses [dockur/macos](https://github.com/dockur/macos) to run macOS Big Sur in a Docker container with KVM acceleration. Key configuration:
+
+- **macOS Version:** Big Sur (11) - best compatibility with WSL2
+- **CPU Cores:** 1 (single core for AMD compatibility during install)
+- **RAM:** 8GB
+- **Disk:** 64GB
+- **Access:** Web-based viewer on port 8006
 
 ## Legal
 
@@ -399,7 +385,7 @@ Running macOS in a VM is against Apple's EULA unless on Apple hardware. For pers
 
 ## Credits
 
-- [sickcodes/Docker-OSX](https://github.com/sickcodes/Docker-OSX)
+- [dockur/macos](https://github.com/dockur/macos)
 - [Anthropic Claude](https://claude.ai)
 
 ## License
