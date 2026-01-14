@@ -1,6 +1,16 @@
 # Claude Cowork for Windows
 
-**Claude Cowork is macOS-only.** This project lets you run it on Windows by running macOS in a Docker container.
+**Claude Cowork is macOS-only.** This project lets you run it on Windows by running macOS in a virtualized Docker container.
+
+But this setup accomplishes more than just running Cowork - it gives you a **sandboxed environment** where you can:
+
+- **Let Claude drive a web browser** without exposing your real credentials or browsing history
+- **Execute untested code** without risking your primary machine
+- **Run MCP plugins and automation loops** that would be too risky on your main system
+- **Snapshot and restore** the entire environment at any point
+- **Experiment freely** knowing you can reset everything with one command
+
+Your Windows PC stays safe while Claude has full autonomy inside the sandbox.
 
 > 📖 **Official Announcement:** [Cowork Research Preview](https://claude.com/blog/cowork-research-preview) - Anthropic's blog post introducing Claude Cowork
 
@@ -34,38 +44,7 @@ Claude will read the instructions, check your system, enable KVM, start the cont
 
 ---
 
-## Why Use This?
-
-[Claude Cowork](https://claude.ai/download) is Anthropic's revolutionary AI agent that can actually *use* your computer - reading files, editing documents, browsing the web, and automating complex workflows. It's like having an AI assistant that can do real work on your machine.
-
-### What You Get
-
-| Capability | Description |
-|------------|-------------|
-| **Claude Cowork** | Full agentic AI that reads, writes, and organizes files autonomously |
-| **Claude Code** | Terminal-based coding assistant for software development |
-| **Browser Automation** | Chrome/Safari access for web research, form filling, and browser agents |
-| **Sandboxed Environment** | Safe isolation - let Claude experiment without risking your main system |
-| **File Management** | Organize documents, process data, clean up folders automatically |
-| **Full macOS** | Access to the entire Apple ecosystem and macOS-only applications |
-
-### Why a Sandbox Matters
-
-Running Cowork in a VM gives you a **safe playground** for AI experimentation:
-
-- **Try risky operations** - Let Claude delete, move, or reorganize files without fear
-- **Test automation scripts** - Run untested workflows in isolation
-- **Browser agent experiments** - Let AI browse the web without exposing your real credentials
-- **Learn safely** - Explore Cowork's capabilities knowing you can reset anytime
-- **Disposable environment** - `docker-compose down -v` gives you a fresh start
-
-### The Limitation
-
-**Cowork only runs on macOS.** Anthropic hasn't released a Windows version yet.
-
-### The Solution
-
-This repo gives you a complete macOS virtual machine running inside Docker on your Windows PC. Connect via VNC, and you have full access to Cowork, Claude Code, Chrome, and everything else macOS offers.
+## How It Works
 
 ```
 ┌──────────────────────────────────────────┐
@@ -86,6 +65,8 @@ This repo gives you a complete macOS virtual machine running inside Docker on yo
 │         VNC Viewer (port 5999)           │
 └──────────────────────────────────────────┘
 ```
+
+You connect to the macOS desktop via VNC and use it like a normal Mac.
 
 ## Requirements
 
