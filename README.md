@@ -46,7 +46,21 @@ systeminfo | findstr /i "Virtualization"
 
 ## Quick Start
 
-### 1. Enable KVM (required for macOS virtualization)
+### 1. Install Docker Desktop
+
+1. Download **Docker Desktop** from [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
+2. Run the installer and follow the prompts
+3. **Important:** When asked, ensure **WSL 2** backend is selected (not Hyper-V)
+4. Restart your computer if prompted
+5. Launch Docker Desktop and wait for it to fully start (whale icon in system tray)
+
+To verify Docker is working:
+```powershell
+docker --version
+docker run hello-world
+```
+
+### 2. Enable KVM (required for macOS virtualization)
 
 Run the included setup script:
 ```powershell
@@ -55,7 +69,7 @@ Run the included setup script:
 
 Or manually: see [KVM Troubleshooting](#kvm-not-available-error) below.
 
-### 2. Clone and start
+### 3. Clone and start
 
 ```powershell
 git clone https://github.com/tomchapin/claude-cowork-for-windows.git
@@ -63,14 +77,14 @@ cd claude-cowork-for-windows
 docker-compose up -d
 ```
 
-### 3. Wait for macOS to download and boot
+### 4. Wait for macOS to download and boot
 
 First boot takes ~15-20 minutes (downloads macOS, then installs). Watch progress:
 ```powershell
 docker-compose logs -f
 ```
 
-### 4. Connect via VNC
+### 5. Connect via VNC
 
 Use any VNC client (all free and open source):
 - **[TigerVNC](https://tigervnc.org/)** - Recommended, clean and fast
@@ -82,23 +96,23 @@ Connect to:
 localhost:5999
 ```
 
-### 5. Install macOS (first time only)
+### 6. Install macOS (first time only)
 
 On first boot, you'll see the macOS Recovery environment (you may see some `vm_shared_region` warnings - these are normal in a VM).
 
-#### Step 5a: Open Disk Utility
+#### Step 6a: Open Disk Utility
 
 When the macOS Utilities window appears, select **Disk Utility** and click **Continue**:
 
 ![macOS Utilities](docs/screenshots/01-macos-utilities.png)
 
-#### Step 5b: Select the virtual disk
+#### Step 6b: Select the virtual disk
 
 In Disk Utility, find the **larger QEMU HARDDISK Media** in the sidebar (the ~200+ GB one, not the small ~3GB recovery partition). Select it:
 
 ![Select Disk](docs/screenshots/02-disk-utility-select-disk.png)
 
-#### Step 5c: Erase and format the disk
+#### Step 6c: Erase and format the disk
 
 Click **Erase** and configure:
 - **Name:** `OSX` (or any name you prefer)
@@ -109,13 +123,13 @@ Then click **Erase**:
 
 ![Erase Dialog](docs/screenshots/03-erase-dialog.png)
 
-#### Step 5d: Reinstall macOS
+#### Step 6d: Reinstall macOS
 
 Quit Disk Utility, then select **Reinstall macOS Sequoia** and click **Continue**:
 
 ![Select Reinstall](docs/screenshots/04-select-reinstall.png)
 
-#### Step 5e: Select installation disk
+#### Step 6e: Select installation disk
 
 After agreeing to the license, select your newly formatted **OSX** disk (not the macOS Base System):
 
@@ -125,7 +139,7 @@ Click **Continue** and wait for installation to complete (~20-30 minutes).
 
 The VM will reboot several times during installation. Your VNC connection may disconnect briefly - just reconnect to `localhost:5999`.
 
-### 6. Complete macOS setup
+### 7. Complete macOS setup
 
 After installation, follow the macOS setup wizard:
 - Select your country/region
@@ -133,7 +147,7 @@ After installation, follow the macOS setup wizard:
 - Create a user account
 - Complete remaining setup steps
 
-### 7. Install Claude Code CLI
+### 8. Install Claude Code CLI
 
 Once macOS is set up, open **Terminal** (Cmd+Space, type "Terminal") and run:
 
@@ -155,7 +169,7 @@ npm install -g @anthropic-ai/claude-code
 claude --version
 ```
 
-### 8. Install Claude Cowork (Desktop App)
+### 9. Install Claude Cowork (Desktop App)
 
 1. Open **Safari** in macOS
 2. Go to https://claude.ai/download
