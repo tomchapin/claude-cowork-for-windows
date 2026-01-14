@@ -2,15 +2,40 @@
 
 Run **Claude Cowork** on Windows by running macOS in a Docker container.
 
-## The Problem
+> 📖 **Official Announcement:** [Cowork Research Preview](https://claude.com/blog/cowork-research-preview) - Anthropic's blog post introducing Claude Cowork
 
-[Claude Cowork](https://claude.ai/download) is Anthropic's desktop application that enables Claude to control your computer - taking screenshots, moving the mouse, typing, and automating complex workflows. It's incredibly powerful.
+## Why Use This?
 
-**But Cowork only runs on macOS.**
+[Claude Cowork](https://claude.ai/download) is Anthropic's revolutionary AI agent that can actually *use* your computer - reading files, editing documents, browsing the web, and automating complex workflows. It's like having an AI assistant that can do real work on your machine.
 
-## The Solution
+### What You Get
 
-Run a full macOS virtual machine inside Docker on your Windows PC. Connect via VNC, complete the macOS setup, install Cowork, and you're done.
+| Capability | Description |
+|------------|-------------|
+| **Claude Cowork** | Full agentic AI that reads, writes, and organizes files autonomously |
+| **Claude Code** | Terminal-based coding assistant for software development |
+| **Browser Automation** | Chrome/Safari access for web research, form filling, and browser agents |
+| **Sandboxed Environment** | Safe isolation - let Claude experiment without risking your main system |
+| **File Management** | Organize documents, process data, clean up folders automatically |
+| **Full macOS** | Access to the entire Apple ecosystem and macOS-only applications |
+
+### Why a Sandbox Matters
+
+Running Cowork in a VM gives you a **safe playground** for AI experimentation:
+
+- **Try risky operations** - Let Claude delete, move, or reorganize files without fear
+- **Test automation scripts** - Run untested workflows in isolation
+- **Browser agent experiments** - Let AI browse the web without exposing your real credentials
+- **Learn safely** - Explore Cowork's capabilities knowing you can reset anytime
+- **Disposable environment** - `docker-compose down -v` gives you a fresh start
+
+### The Limitation
+
+**Cowork only runs on macOS.** Anthropic hasn't released a Windows version yet.
+
+### The Solution
+
+This repo gives you a complete macOS virtual machine running inside Docker on your Windows PC. Connect via VNC, and you have full access to Cowork, Claude Code, Chrome, and everything else macOS offers.
 
 ```
 ┌──────────────────────────────────────────┐
@@ -21,6 +46,9 @@ Run a full macOS virtual machine inside Docker on your Windows PC. Connect via V
 │  │  │  macOS VM                    │  │  │
 │  │  │  ┌────────────────────────┐  │  │  │
 │  │  │  │    Claude Cowork       │  │  │  │
+│  │  │  │    Claude Code         │  │  │  │
+│  │  │  │    Chrome / Safari     │  │  │  │
+│  │  │  │    Full macOS Desktop  │  │  │  │
 │  │  │  └────────────────────────┘  │  │  │
 │  │  └──────────────────────────────┘  │  │
 │  └────────────────────────────────────┘  │
