@@ -22,11 +22,7 @@ Don't want to read all these instructions? **Let Claude Code set everything up f
 
 ### 1. Install Claude Code CLI on Windows
 
-```powershell
-irm https://claude.ai/install.ps1 | iex
-```
-
-That's it - one command. The installer handles everything automatically.
+Follow the official instructions at **[code.claude.com/docs/en/quickstart](https://code.claude.com/docs/en/quickstart)**
 
 ### 2. Tell Claude to do the rest
 
@@ -235,13 +231,7 @@ After installation, follow the macOS setup wizard:
 
 > Skip this if you only want Cowork. Claude Code CLI is a separate terminal-based tool for developers.
 
-Open **Terminal** (Cmd+Space, type "Terminal") and run:
-
-```bash
-curl -fsSL https://claude.ai/install.sh | bash
-```
-
-That's it - one command. The installer handles everything automatically.
+Open **Terminal** (Cmd+Space, type "Terminal") and follow the macOS instructions at **[code.claude.com/docs/en/quickstart](https://code.claude.com/docs/en/quickstart)**
 
 ## Usage
 
