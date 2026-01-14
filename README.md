@@ -44,6 +44,40 @@ systeminfo | findstr /i "Virtualization"
 # Should show: Virtualization Enabled In Firmware: Yes
 ```
 
+### Enabling Virtualization in BIOS
+
+If virtualization is not enabled, you'll need to enable it in your BIOS/UEFI settings:
+
+**How to access BIOS:**
+1. Restart your computer
+2. Press the BIOS key repeatedly during startup (before Windows loads):
+   - **Dell:** F2 or F12
+   - **HP:** F10 or Esc
+   - **Lenovo:** F1 or F2
+   - **ASUS:** F2 or Del
+   - **Acer:** F2 or Del
+   - **MSI:** Del
+   - **Gigabyte:** Del
+3. Or from Windows: Settings → System → Recovery → Advanced startup → Restart now → Troubleshoot → Advanced options → UEFI Firmware Settings
+
+**Settings to enable:**
+
+For **Intel** CPUs, look for:
+- `Intel Virtualization Technology` or `Intel VT-x` → **Enabled**
+- `VT-d` or `Intel VT-d` → **Enabled** (if available)
+
+For **AMD** CPUs, look for:
+- `SVM Mode` or `AMD-V` → **Enabled**
+- `IOMMU` → **Enabled** (if available)
+
+These settings are typically found under:
+- `Advanced` → `CPU Configuration`
+- `Advanced` → `Processor Configuration`
+- `Security` → `Virtualization`
+- `BIOS Features` or `Advanced BIOS Features`
+
+After enabling, save and exit (usually F10), then restart.
+
 ## Quick Start
 
 ### 1. Install Docker Desktop
