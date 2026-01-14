@@ -10,17 +10,13 @@ Run **Claude Cowork** on Windows by running macOS in a Docker container.
 
 Don't want to read all these instructions? **Let Claude Code set everything up for you.**
 
-> ℹ️ This approach requires Node.js on Windows (for Claude Code CLI). If you don't want to install Node.js, skip to the [manual setup](#quick-start) below.
-
 ### 1. Install Claude Code CLI on Windows
 
 ```powershell
-# Install Node.js first (if you don't have it)
-winget install OpenJS.NodeJS
-
-# Install Claude Code
-npm install -g @anthropic-ai/claude-code
+irm https://claude.ai/install.ps1 | iex
 ```
+
+That's it - one command. The installer handles everything automatically.
 
 ### 2. Tell Claude to do the rest
 
@@ -35,8 +31,6 @@ Then just say:
 Claude will read the instructions, check your system, enable KVM, start the container, and guide you through the macOS installation via VNC.
 
 **That's the cheat code.** 🎮
-
-> 💡 **Don't want Node.js on Windows?** No problem - follow the [manual Quick Start](#quick-start) instead. Node.js is only required for the automated Claude approach above.
 
 ---
 
@@ -263,22 +257,10 @@ After installation, follow the macOS setup wizard:
 Open **Terminal** (Cmd+Space, type "Terminal") and run:
 
 ```bash
-# Install Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Add Homebrew to PATH (run the command it tells you, or):
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Install Node.js
-brew install node
-
-# Install Claude Code
-npm install -g @anthropic-ai/claude-code
-
-# Verify installation
-claude --version
+curl -fsSL https://claude.ai/install.sh | bash
 ```
+
+That's it - one command. The installer handles everything automatically.
 
 ## Usage
 
