@@ -238,7 +238,7 @@ claude --version
 3. Download and install the macOS app
 4. Sign in with your Anthropic account
 
-**Done! You now have Claude Cowork on Windows.**
+**Done! You now have Claude Cowork running on macOS in a virtualized sandbox on your Windows PC.**
 
 ## Usage
 
