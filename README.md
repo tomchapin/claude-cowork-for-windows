@@ -360,7 +360,7 @@ We recommend creating these snapshots as you set up:
 
 Snapshots are stored in the `snapshots/` folder and can be quite large (10-50GB+ depending on usage). You can:
 - Move old snapshots to external storage
-- Delete snapshots you no longer need: `rm -rf snapshots/<snapshot_name>`
+- Delete snapshots you no longer need: `rmdir /s snapshots\<snapshot_name>`
 
 ## Access
 
