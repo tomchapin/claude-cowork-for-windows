@@ -258,12 +258,70 @@ docker-compose down -v
 
 ### Snapshots
 
-Save VM state before experiments:
+Snapshots let you save the entire VM state - macOS installation, apps, files, everything. This is perfect for:
+- **Saving a clean baseline** after initial setup
+- **Before risky experiments** - restore if things go wrong
+- **Multiple configurations** - switch between different setups
 
-```bash
-./scripts/snapshot.sh my-snapshot "Description"
-./scripts/restore.sh my-snapshot_2024-01-15_10-30-00
+#### Create a Snapshot
+
+```powershell
+# Windows (PowerShell)
+.\scripts\snapshot.ps1 -Name "clean-install" -Description "Fresh macOS with Cowork installed"
+
+# Linux/macOS/WSL (Bash)
+./scripts/snapshot.sh clean-install "Fresh macOS with Cowork installed"
 ```
+
+The VM will stop during snapshot (for data consistency), then you can restart it.
+
+#### List Available Snapshots
+
+```powershell
+# View all snapshots
+dir snapshots\
+
+# Or in bash
+ls snapshots/
+```
+
+Each snapshot folder contains:
+- `disk.tar.gz` - Compressed VM disk image
+- `metadata.json` - Snapshot name, timestamp, description
+
+#### Restore a Snapshot
+
+```powershell
+# Windows (PowerShell)
+.\scripts\restore.ps1 -SnapshotName "clean-install_2026-01-13_18-30-00"
+
+# Linux/macOS/WSL (Bash)
+./scripts/restore.sh clean-install_2026-01-13_18-30-00
+```
+
+Run without arguments to see available snapshots:
+```powershell
+.\scripts\restore.ps1
+```
+
+> ⚠️ **Warning:** Restoring destroys the current VM state. Create a snapshot first if you want to keep it.
+
+#### Recommended Snapshots
+
+We recommend creating these snapshots as you set up:
+
+| When | Snapshot Name | Why |
+|------|---------------|-----|
+| After macOS install | `fresh-macos` | Clean slate, no apps yet |
+| After installing Cowork | `cowork-ready` | Ready to use, nothing configured |
+| After your preferred setup | `my-baseline` | Your personalized environment |
+
+#### Snapshot Storage
+
+Snapshots are stored in the `snapshots/` folder and can be quite large (10-50GB+ depending on usage). You can:
+- Move old snapshots to external storage
+- Delete snapshots you no longer need: `rm -rf snapshots/<snapshot_name>`
+- Back up snapshots to cloud storage for safekeeping
 
 ## Access
 

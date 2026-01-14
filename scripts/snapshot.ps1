@@ -1,5 +1,5 @@
 # Create a snapshot of the current VM state
-# Usage: .\scripts\snapshot.ps1 -Name "clean-dev-environment"
+# Usage: .\scripts\snapshot.ps1 -Name "clean-dev-environment" -Description "Fresh install"
 
 param(
     [Parameter(Mandatory=$true)]
@@ -12,22 +12,18 @@ $ErrorActionPreference = "Stop"
 $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 $snapshotName = "${Name}_${timestamp}"
 $volumeName = "claude-cowork-macos-storage"
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$snapshotDir = Join-Path $scriptDir "..\snapshots\$snapshotName"
 
 Write-Host "Creating snapshot: $snapshotName" -ForegroundColor Cyan
 
 # Stop the VM gracefully first
 Write-Host "Stopping VM for consistent snapshot..." -ForegroundColor Yellow
+Push-Location (Join-Path $scriptDir "..")
 docker-compose down
-
-# Get the volume mount point
-$volumePath = docker volume inspect $volumeName --format '{{ .Mountpoint }}' 2>$null
-if (-not $volumePath) {
-    Write-Host "ERROR: Volume not found. Has the VM been started at least once?" -ForegroundColor Red
-    exit 1
-}
+Pop-Location
 
 # Create snapshots directory if it doesn't exist
-$snapshotDir = Join-Path $PSScriptRoot "..\snapshots\$snapshotName"
 New-Item -ItemType Directory -Path $snapshotDir -Force | Out-Null
 
 # Create metadata file
@@ -38,20 +34,27 @@ $metadata = @{
     volumeName = $volumeName
 } | ConvertTo-Json
 
-$metadata | Out-File -FilePath (Join-Path $snapshotDir "metadata.json")
+$metadata | Out-File -FilePath (Join-Path $snapshotDir "metadata.json") -Encoding UTF8
 
-# Note: Actual disk image backup requires elevated Docker access
-# For production use, consider using Docker volume backup tools
+# Create the actual backup using Docker
+Write-Host "Backing up volume (this may take a while)..." -ForegroundColor Yellow
+$snapshotDirUnix = $snapshotDir -replace '\\', '/' -replace '^([A-Za-z]):', '/$1'
+docker run --rm `
+    -v "${volumeName}:/source:ro" `
+    -v "${snapshotDir}:/backup" `
+    alpine tar czf /backup/disk.tar.gz -C /source .
+
+# Get backup size
+$backupFile = Join-Path $snapshotDir "disk.tar.gz"
+$size = (Get-Item $backupFile).Length / 1MB
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
 Write-Host " Snapshot Created" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "Name: $snapshotName" -ForegroundColor White
-Write-Host "Metadata saved to: snapshots\$snapshotName\" -ForegroundColor Gray
-Write-Host ""
-Write-Host "NOTE: For full disk backup, manually copy the Docker volume:" -ForegroundColor Yellow
-Write-Host "  docker run --rm -v ${volumeName}:/source -v \$(pwd)/snapshots/${snapshotName}:/backup alpine tar czf /backup/disk.tar.gz -C /source ." -ForegroundColor Gray
+Write-Host "Name: $snapshotName"
+Write-Host "Location: snapshots\$snapshotName\"
+Write-Host "Size: $([math]::Round($size, 2)) MB"
 Write-Host ""
 Write-Host "To restart the VM: docker-compose up -d" -ForegroundColor Cyan
