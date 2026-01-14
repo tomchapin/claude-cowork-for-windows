@@ -328,15 +328,13 @@ Run without arguments to see available snapshots:
 
 > ⚠️ **Warning:** Restoring destroys the current VM state. Create a snapshot first if you want to keep it.
 
-#### Recommended Snapshots
+#### When to Snapshot
 
-We recommend creating these snapshots as you set up:
+Create your first snapshot after completing setup - macOS installed, Cowork and/or Claude Code installed, and signed in. This gives you a "ready to use" baseline you can always restore to.
 
-| When | Snapshot Name | Why |
-|------|---------------|-----|
-| After macOS install | `fresh-macos` | Clean slate, no apps yet |
-| After installing Cowork | `cowork-ready` | Ready to use, nothing configured |
-| After your preferred setup | `my-baseline` | Your personalized environment |
+```powershell
+.\scripts\snapshot.ps1 -Name "baseline" -Description "Fresh setup with Cowork authenticated"
+```
 
 #### Snapshot Storage
 
