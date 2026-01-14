@@ -10,6 +10,8 @@ Run **Claude Cowork** on Windows by running macOS in a Docker container.
 
 Don't want to read all these instructions? **Let Claude Code set everything up for you.**
 
+> ℹ️ This approach requires Node.js on Windows (for Claude Code CLI). If you don't want to install Node.js, skip to the [manual setup](#quick-start) below.
+
 ### 1. Install Claude Code CLI on Windows
 
 ```powershell
@@ -33,6 +35,8 @@ Then just say:
 Claude will read the instructions, check your system, enable KVM, start the container, and guide you through the macOS installation via VNC.
 
 **That's the cheat code.** 🎮
+
+> 💡 **Don't want Node.js on Windows?** No problem - follow the [manual Quick Start](#quick-start) instead. Node.js is only required for the automated Claude approach above.
 
 ---
 
