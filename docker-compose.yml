@@ -31,11 +31,15 @@ services:
       # Generate unique serial numbers
       GENERATE_UNIQUE: "true"
 
-      # Extra QEMU arguments for better performance
-      EXTRA: "-usb -device usb-kbd -device usb-mouse"
+      # Virtual disk size (GB) - macOS needs ~25GB minimum
+      SIZE_IN_GB: "${DISK_SIZE:-64}"
+
+      # Extra QEMU arguments: VNC display + USB input devices
+      # VNC port 99 = 5900 + 99 = 5999
+      EXTRA: "-display none -vnc 0.0.0.0:99 -usb -device usb-kbd -device usb-mouse"
     volumes:
-      # Persistent macOS disk image
-      - macos-storage:/image
+      # Persistent macOS disk image and OpenCore config
+      - macos-storage:/home/arch/OSX-KVM
 
       # Shared folder (access via SSHFS or SMB inside macOS)
       - ./shared:/mnt/shared

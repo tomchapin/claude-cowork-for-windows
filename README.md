@@ -82,15 +82,58 @@ Connect to:
 localhost:5999
 ```
 
-### 5. Complete macOS setup
+### 5. Install macOS (first time only)
 
-Follow the macOS setup wizard:
+On first boot, you'll see the macOS Recovery environment (you may see some `vm_shared_region` warnings - these are normal in a VM).
+
+#### Step 5a: Open Disk Utility
+
+When the macOS Utilities window appears, select **Disk Utility** and click **Continue**:
+
+![macOS Utilities](docs/screenshots/01-macos-utilities.png)
+
+#### Step 5b: Select the virtual disk
+
+In Disk Utility, find the **~275 GB QEMU HARDDISK Media** in the sidebar (not the small ~3GB recovery partition). Select it:
+
+![Select Disk](docs/screenshots/02-disk-utility-select-disk.png)
+
+#### Step 5c: Erase and format the disk
+
+Click **Erase** and configure:
+- **Name:** `OSX` (or any name you prefer)
+- **Format:** `APFS`
+- **Scheme:** `GUID Partition Map`
+
+Then click **Erase**:
+
+![Erase Dialog](docs/screenshots/03-erase-dialog.png)
+
+#### Step 5d: Reinstall macOS
+
+Quit Disk Utility, then select **Reinstall macOS Sequoia** and click **Continue**:
+
+![Select Reinstall](docs/screenshots/04-select-reinstall.png)
+
+#### Step 5e: Select installation disk
+
+After agreeing to the license, select your newly formatted **OSX** disk (not the macOS Base System):
+
+![Select Install Disk](docs/screenshots/05-select-install-disk.png)
+
+Click **Continue** and wait for installation to complete (~20-30 minutes).
+
+The VM will reboot several times during installation. Your VNC connection may disconnect briefly - just reconnect to `localhost:5999`.
+
+### 6. Complete macOS setup
+
+After installation, follow the macOS setup wizard:
 - Select your country/region
 - Skip Apple ID (or sign in)
 - Create a user account
 - Complete remaining setup steps
 
-### 6. Install Claude Code CLI
+### 7. Install Claude Code CLI
 
 Once macOS is set up, open **Terminal** (Cmd+Space, type "Terminal") and run:
 
@@ -112,7 +155,7 @@ npm install -g @anthropic-ai/claude-code
 claude --version
 ```
 
-### 7. Install Claude Cowork (Desktop App)
+### 8. Install Claude Cowork (Desktop App)
 
 1. Open **Safari** in macOS
 2. Go to https://claude.ai/download
@@ -214,11 +257,13 @@ If you see `error gathering device information while adding custom device "/dev/
 
 ### Slow boot
 
-First boot is slow (~15-20 min) because it downloads macOS. Subsequent boots take 1-2 minutes.
+First boot is slow (~15-20 min) because it downloads macOS recovery files. The initial macOS installation takes another 20-30 minutes. After that, subsequent boots take 1-2 minutes.
 
 ### Can't connect VNC
 
 Wait for macOS to fully boot. Check `docker-compose logs -f` to see boot progress.
+
+During macOS installation, the VM reboots several times. If VNC disconnects, wait a few seconds and reconnect to `localhost:5999`.
 
 ### Shared folder not visible
 
